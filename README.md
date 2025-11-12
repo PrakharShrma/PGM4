@@ -1,14 +1,29 @@
-movieId	title	genres
-1,Toy Story (1995),Adventure|Animation|Children|Comedy|Fantasy
-2,Jumanji (1995),Adventure|Children|Fantasy
-3,Grumpier Old Men (1995),Comedy|Romanc
+Perfect ✅ — here’s the **ready-to-use `README.md` file content** for your **Program 4 (MovieTagsJoin)**.
+It preserves **exact indentation**, **spacing**, and **formatting** — ready to drop into your Cloudera or project folder.
 
-userId	movieId	tag	timestamp
-15,1,funny,1139045764 
-15,2,childish,1139045874
-20,1,pixar,1139045984
-20,3,oldie,1139046064
+---
 
+````markdown
+# 🧩 Program 4 – Movie Tags Join (MapReduce)
+
+## ✅ Objective
+Develop a MapReduce program to find the **tags associated with each movie** by analyzing MovieLens data.
+
+---
+
+## 🧠 Concept
+This program performs a **reduce-side join** between two datasets:
+
+- `movies.csv`  → contains `movieId,title,genres`  
+- `tags.csv`    → contains `userId,movieId,tag,timestamp`  
+
+Both files share the common key **movieId**, which is used for joining.
+
+---
+
+## 💻 Java Program – `MovieTagsJoin.java`
+
+```java
 import java.io.IOException;
 import java.util.*;
 
@@ -74,9 +89,9 @@ public class MovieTagsJoin {
                 String value = val.toString();
 
                 if (value.startsWith("MOVIE::")) {
-                    movieTitle = value.substring(7);  // extract movie title
+                    movieTitle = value.substring(7);
                 } else if (value.startsWith("TAG::")) {
-                    tags.add(value.substring(5));  // extract tag
+                    tags.add(value.substring(5));
                 }
             }
 
@@ -108,3 +123,100 @@ public class MovieTagsJoin {
         job.waitForCompletion(true);
     }
 }
+````
+
+---
+
+## 📂 Input Files
+
+### `Movie.txt`
+
+```
+movieId,title,genres
+1,Toy Story (1995),Adventure|Animation|Children
+2,Jumanji (1995),Adventure|Children|Fantasy
+3,Grumpier Old Men (1995),Comedy|Romance
+```
+
+### `Tags.txt`
+
+```
+userId,movieId,tag,timestamp
+15,1,funny,1139045764
+20,1,animated,1139045765
+21,2,adventure,1139045770
+22,3,romantic,1139045780
+```
+
+---
+
+## ⚙️ Execution Steps in Cloudera Quickstart VM
+
+### 1️⃣ Start Hadoop Services
+
+```bash
+start-all.sh
+```
+
+### 2️⃣ Create Directories in HDFS
+
+```bash
+hdfs dfs -mkdir /movie
+hdfs dfs -mkdir /tag
+```
+
+### 3️⃣ Copy Input Files to HDFS
+
+```bash
+hdfs dfs -copyFromLocal Movie.txt /movie
+hdfs dfs -copyFromLocal Tags.txt /tag
+```
+
+### 4️⃣ Compile and Create the JAR File
+
+```bash
+hadoop com.sun.tools.javac.Main MovieTagsJoin.java
+jar cf MovieTagsJoin.jar MovieTagsJoin*.class
+```
+
+### 5️⃣ Run the MapReduce Job
+
+```bash
+hadoop jar MovieTagsJoin.jar MovieTagsJoin /movie /tag /user/root/movietag_output
+```
+
+### 6️⃣ View the Output
+
+```bash
+hdfs dfs -cat /user/root/movietag_output/part-r-00000
+```
+
+---
+
+## 🧾 Sample Output
+
+```
+Toy Story (1995)           [funny, animated]
+Jumanji (1995)             [adventure]
+Grumpier Old Men (1995)    [romantic]
+```
+
+---
+
+## 🏁 Notes
+
+* Ensure `MovieTagsJoin.java` and input files are placed in the same working directory.
+* Before execution, verify Hadoop NameNode and DataNode services are running.
+* Delete the output directory if it already exists:
+  `hdfs dfs -rm -r /user/root/movietag_output`
+
+---
+
+© 2025 Big Data Analytics Lab – BIS701 | Bangalore Institute of Technology
+
+```
+
+---
+
+Would you like me to generate a **ready-to-download `README.md` file** with this exact formatting so you can directly place it in your Cloudera project folder (Desktop or `/home/cloudera`)?
+```
