@@ -4,7 +4,7 @@ movieId	title	genres
 3,Grumpier Old Men (1995),Comedy|Romanc
 
 userId	movieId	tag	timestamp
-15,1,funny,1139045764
+15,1,funny,1139045764 
 15,2,childish,1139045874
 20,1,pixar,1139045984
 20,3,oldie,1139046064
